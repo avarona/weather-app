@@ -2,9 +2,22 @@ body {
   background-color: #1D1F20;
   color: #D0D0D0;
 }
+h1 {
+  font-size: 48px;
+  font-weight: bold;
+}
+#date-time {
+  font-size: 24px;
+}
+#coords {
+  font-size: 24px;
+}
 #temperature {
   font-size: 24px;
 }
 #weather {
   font-size: 48px;
+}
+#weather p {
+  font-size: 24px;
 }

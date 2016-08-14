@@ -18,23 +18,75 @@ var country = "";
       zip = response.postal;
       country = response.country;
       var google = "https://www.google.com/search?q=" + response.loc + "&ie=utf-8&oe=utf-8";
-      $("#coords").html("<a href='" + google + "' target='_blank'>" + response.loc + "</a>");
+      var loc = response.loc.split(",").join(", ");
+      $("#coords").html("<a href='" + google + "' target='_blank'>" + loc + "</a>");
   }, "jsonp");
 
 // DATE & TIME
-  var time = new Date().toLocaleString();
+  var time = new Date().toLocaleString();   // date & time
   $("#date-time").html(time);
-  console.log(time);
-  var arr = time.split(" ");
+  var hour = new Date();    // day vs night
+  hour = hour.getHours();
 
-// FUNCTION WEATHER APP
+  switch(hour) {    // prepend hour icon
+    case 1:
+    case 13:
+      $("#date-time").prepend("<i class='wi wi-time-1'></i> ");
+      break;
+    case 2:
+    case 14:
+      $("#date-time").prepend("<i class='wi wi-time-2'></i> ");
+      break;
+    case 3:
+    case 15:
+      $("#date-time").prepend("<i class='wi wi-time-3'></i> ");
+      break;
+    case 4:
+    case 16:
+      $("#date-time").prepend("<i class='wi wi-time-4'></i> ");
+      break;
+    case 5:
+    case 17:
+      $("#date-time").prepend("<i class='wi wi-time-5'></i> ");
+      break;
+    case 6:
+    case 18:
+      $("#date-time").prepend("<i class='wi wi-time-6'></i> ");
+      break;
+    case 7:
+    case 19:
+      $("#date-time").prepend("<i class='wi wi-time-7'></i> ");
+      break;
+    case 8:
+    case 20:
+      $("#date-time").prepend("<i class='wi wi-time-8'></i> ");
+      break;
+    case 9:
+    case 21:
+      $("#date-time").prepend("<i class='wi wi-time-9'></i> ");
+      break;
+    case 10:
+    case 22:
+      $("#date-time").prepend("<i class='wi wi-time-10'></i> ");
+      break;
+    case 11:
+    case 23:
+      $("#date-time").prepend("<i class='wi wi-time-11'></i> ");
+      break;
+    case 12:
+    case 24:
+      $("#date-time").prepend("<i class='wi wi-time-12'></i> ");
+      break;
+  }
+
+// WEATHER & TEMPERATURE
   function temp(units) {
     var website = "http://api.openweathermap.org/data/2.5/weather?appid=5d87facb5c0056cee5c8975d500a58c7&units=" + "imperial" + "&zip=" + zip + "," + country;
-    console.log(website);
-
     $.getJSON(website, function(json) {
       console.log(json);
       $("#temperature").html(json.main.temp);   // temperature
+        // &#x2103   celsius
+        // &#x2109   fahrenheit
       switch(json.weather[0].id) {      // weather icons
         case 200:
         case 201:
@@ -46,7 +98,11 @@ var country = "";
         case 230:
         case 231:
         case 232:
-          $("#weather").html("<h3>" + json.weather[0].description + "</h3><i class='wi wi-day-thunderstorm'></i>");
+          if(hour >= 6 && hour < 18) {
+            $("#weather").html("<i class='wi wi-day-thunderstorm'></i>" + "<p>" + json.weather[0].description + "</p>");
+          } else {
+            $("#weather").html("<i class='wi wi-night-alt-thunderstorm'></i>" + "<p>" + json.weather[0].description + "</p>");
+          }
           break;
         case 300:
         case 301:
@@ -57,7 +113,11 @@ var country = "";
         case 313:
         case 314:
         case 321:
-          $("#weather").html("<h3>" + json.weather[0].description + "</h3><i class='wi wi-day-sprinkle'></i>");
+          if(hour >= 6 && hour < 18) {
+            $("#weather").html("<i class='wi wi-day-sprinkle'></i>" + "<p>" + json.weather[0].description + "</p>");
+          } else {
+            $("#weather").html("<i class='wi wi-night-alt-sprinkle'></i>" + "<p>" + json.weather[0].description + "</p>")
+          }
           break;
         case 500:
         case 501:
@@ -69,7 +129,11 @@ var country = "";
         case 521:
         case 522:
         case 531:
-          $("#weather").html("<h3>" + json.weather[0].description + "</h3><i class='wi wi-day-rain'></i>");
+          if(hour >= 6 && hour < 18) {
+            $("#weather").html("<i class='wi wi-day-rain'></i>" + "<p>" + json.weather[0].description + "</p>");
+          } else {
+            $("#weather").html("<i class='wi wi-night-alt-rain'></i>" + "<p>" + json.weather[0].description + "</p>");
+          }
           break;
         case 600:
         case 601:
@@ -81,24 +145,35 @@ var country = "";
         case 620:
         case 621:
         case 622:
-          $("#weather").html("<h3>" + json.weather[0].description + "</h3><i class='wi wi-day-snow'></i>");
+          if(hour >= 6 && hour < 18) {
+            $("#weather").html("<i class='wi wi-day-snow'></i>" + "<p>" + json.weather[0].description + "</p>");
+          } else {
+            $("#weather").html("<i class='wi wi-night-alt-snow'></i>" + "<p>" + json.weather[0].description + "</p>");
+          }
           break;
         case 800:
-          $("#weather").html("<h3>" + json.weather[0].description + "</h3><i class='wi wi-day-sunny'></i>");
+          if(hour >= 6 && hour < 18) {
+            $("#weather").html("<i class='wi wi-day-sunny'></i>" + "<p>" + json.weather[0].description + "</p>");
+          } else {
+            $("#weather").html("<i class='wi wi-night-alt-clear'></i>" + "<p>" + json.weather[0].description + "</p>");
+          }
           break;
         case 801:
         case 802:
         case 803:
         case 804:
-          $("#weather").html("<h3>" + json.weather[0].description + "</h3><i class='wi wi-day-sunny'></i>");
+          if(hour >= 6 && hour < 18) {
+            $("#weather").html("<i class='wi wi-day-cloudy'></i>" + "<p>" + json.weather[0].description + "</p>");
+        } else {
+            $("#weather").html("<i class='wi wi-night-alt-cloudy'></i>" + "<p>" + json.weather[0].description + "</p>");
+        }
           break;
         default:
           $("#weather").html("There was an error... Please try again later");
       }
     });
   }
-//&#x2103   celsius
-//&#x2109   fahrenheit
+
   setTimeout(temp, 1000);
 
 
