@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
 // ASK FOR GEOLOCATION
   /*
   var lat, lon;
@@ -11,8 +10,8 @@ $(document).ready(function() {
 */
 
 // LOCATION IP ADDRESS
-var zip = "";
-var country = "";
+  var zip = "";
+  var country = "";
   $.get("http://ipinfo.io", function(response) {
       $("#city").html("<h3>" + response.city + ", " + response.region + "<br>" + response.country);
       zip = response.postal;
@@ -23,71 +22,97 @@ var country = "";
   }, "jsonp");
 
 // DATE & TIME
-  var time = new Date().toLocaleString();   // date & time
-  $("#date-time").html(time);
-  var hour = new Date();    // day vs night
-  hour = hour.getHours();
+  var time = new Date().toLocaleString();  // date & time
+  time = time.split(",");
+  $("#date-time").html("<p class='date'>" + time[0] + "</p><p class='time'>" + time[1] + "</p>");
 
-  switch(hour) {    // prepend hour icon
+  var hour = new Date();      // hour of the day
+  hour = hour.getHours();
+  switch(hour) {            // prepend hour icon
     case 1:
     case 13:
-      $("#date-time").prepend("<i class='wi wi-time-1'></i> ");
+      $("#date-time .time").prepend("<i class='wi wi-time-1'></i> ");
       break;
     case 2:
     case 14:
-      $("#date-time").prepend("<i class='wi wi-time-2'></i> ");
+      $("#date-time .time").prepend("<i class='wi wi-time-2'></i> ");
       break;
     case 3:
     case 15:
-      $("#date-time").prepend("<i class='wi wi-time-3'></i> ");
+      $("#date-time .time").prepend("<i class='wi wi-time-3'></i> ");
       break;
     case 4:
     case 16:
-      $("#date-time").prepend("<i class='wi wi-time-4'></i> ");
+      $("#date-time .time").prepend("<i class='wi wi-time-4'></i> ");
       break;
     case 5:
     case 17:
-      $("#date-time").prepend("<i class='wi wi-time-5'></i> ");
+      $("#date-time .time").prepend("<i class='wi wi-time-5'></i> ");
       break;
     case 6:
     case 18:
-      $("#date-time").prepend("<i class='wi wi-time-6'></i> ");
+      $("#date-time .time").prepend("<i class='wi wi-time-6'></i> ");
       break;
     case 7:
     case 19:
-      $("#date-time").prepend("<i class='wi wi-time-7'></i> ");
+      $("#date-time .time").prepend("<i class='wi wi-time-7'></i> ");
       break;
     case 8:
     case 20:
-      $("#date-time").prepend("<i class='wi wi-time-8'></i> ");
+      $("#date-time .time").prepend("<i class='wi wi-time-8'></i> ");
       break;
     case 9:
     case 21:
-      $("#date-time").prepend("<i class='wi wi-time-9'></i> ");
+      $("#date-time .time").prepend("<i class='wi wi-time-9'></i> ");
       break;
     case 10:
     case 22:
-      $("#date-time").prepend("<i class='wi wi-time-10'></i> ");
+      $("#date-time .time").prepend("<i class='wi wi-time-10'></i> ");
       break;
     case 11:
     case 23:
-      $("#date-time").prepend("<i class='wi wi-time-11'></i> ");
+      $("#date-time .time").prepend("<i class='wi wi-time-11'></i> ");
       break;
     case 12:
     case 24:
-      $("#date-time").prepend("<i class='wi wi-time-12'></i> ");
+      $("#date-time .time").prepend("<i class='wi wi-time-12'></i> ");
       break;
   }
 
-// WEATHER & TEMPERATURE
-  function temp(units) {
-    var website = "http://api.openweathermap.org/data/2.5/weather?appid=5d87facb5c0056cee5c8975d500a58c7&units=" + "imperial" + "&zip=" + zip + "," + country;
+// TEMPERATURE & WEATHER
+  function temp() {
+    var units = "";           // input units by country
+    if(country == "US") {
+      units = "imperial";
+      $("#degree").html("<a href='#'> &#x2109</a>");
+    } else {
+      units = "metric";
+      $("#degree").html("<a href='#'> &#x2103</a>");
+    }
+
+    var website = "http://api.openweathermap.org/data/2.5/weather?appid=5d87facb5c0056cee5c8975d500a58c7&units=" + units + "&zip=" + zip + "," + country;
+
     $.getJSON(website, function(json) {
       console.log(json);
-      $("#temperature").html(json.main.temp);   // temperature
-        // &#x2103   celsius
-        // &#x2109   fahrenheit
-      switch(json.weather[0].id) {      // weather icons
+      var temperature = json.main.temp;
+      $("#temp").html(json.main.temp);   // temperature
+
+      var toggle = units;           // degree toggle
+      $("#degree").click(function() {
+        if(toggle == "imperial") {
+          temperature = (temperature - 32) * 5 / 9;
+          toggle = "metric";
+          $('#temp').html(temperature.toFixed(2));
+          $('#degree').html("<a href='#'> &#x2103</a>");
+        } else if(toggle == "metric") {
+          temperature = (temperature * 9 / 5) + 32;
+          toggle = "imperial";
+          $('#temp').html(temperature.toFixed(2));
+          $('#degree').html("<a href='#'> &#x2109</a>");
+        }
+      });
+
+      switch(json.weather[0].id) {   // weather icons & desc
         case 200:
         case 201:
         case 202:
