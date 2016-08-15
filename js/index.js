@@ -12,7 +12,7 @@ $(document).ready(function() {
 // LOCATION IP ADDRESS
   var zip = "";
   var country = "";
-  $.get("http://ipinfo.io", function(response) {
+  $.get("https://crossorigin.me/http://ipinfo.io", function(response) {
       $("#city").html("<h3>" + response.city + ", " + response.region + "<br>" + response.country);
       zip = response.postal;
       country = response.country;
@@ -90,7 +90,7 @@ $(document).ready(function() {
       $("#degree").html("<a href='#'> &#x2103</a>");
     }
 
-    var website = "http://api.openweathermap.org/data/2.5/weather?appid=5d87facb5c0056cee5c8975d500a58c7&units=" + units + "&zip=" + zip + "," + country;
+    var website = "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?appid=5d87facb5c0056cee5c8975d500a58c7&units=" + units + "&zip=" + zip + "," + country;
 
     $.getJSON(website, function(json) {
       console.log(json);
