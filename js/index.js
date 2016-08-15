@@ -1,6 +1,6 @@
 $(document).ready(function() {
 // ASK FOR GEOLOCATION
-  /*
+/*
   var lat, lon;
   navigator.geolocation.getCurrentPosition(function(position) {
     lat = position.coords.latitude;
@@ -12,7 +12,7 @@ $(document).ready(function() {
 // LOCATION IP ADDRESS
   var zip = "";
   var country = "";
-  $.get("https://crossorigin.me/http://ipinfo.io", function(response) {
+  $.get("http://ipinfo.io", function(response) {
       $("#city").html("<h3>" + response.city + ", " + response.region + "<br>" + response.country);
       zip = response.postal;
       country = response.country;
@@ -22,9 +22,9 @@ $(document).ready(function() {
   }, "jsonp");
 
 // DATE & TIME
-  var time = new Date().toLocaleString();  // date & time
-  time = time.split(",");
-  $("#date-time").html("<p class='date'>" + time[0] + "</p><p class='time'>" + time[1] + "</p>");
+  var time = new Date().toString();  // date & time
+  time = time.split(" ");
+  $("#date-time").html("<p class='date'>" + time[1] + " " + time[2] + ", " + time[3] + "</p><p class='time'>" + time[4] + "</p>");
 
   var hour = new Date();      // hour of the day
   hour = hour.getHours();
@@ -78,7 +78,7 @@ $(document).ready(function() {
       $("#date-time .time").prepend("<i class='wi wi-time-12'></i> ");
       break;
   }
-
+console.log(hour);
 // TEMPERATURE & WEATHER
   function temp() {
     var units = "";           // input units by country

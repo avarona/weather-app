@@ -18,6 +18,9 @@ h1 {
 #temp, #degree {
   display: inline;
 }
+#degree a:hover {
+  text-decoration: none;
+}
 #weather {
   font-size: 48px;
 }
