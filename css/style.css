@@ -6,14 +6,27 @@ h1 {
   font-size: 48px;
   font-weight: bold;
 }
-#date-time {
+
+/* LOCATION */
+#city {
   font-size: 24px;
 }
 #coords {
+  font-size: 12px;
+}
+
+/* DATE & TIME */
+#time {
   font-size: 24px;
 }
+#time .wi {
+  font-size: 28px;
+  vertical-align: middle;
+}
+
+/* TEMPERATURE */
 #temperature {
-  font-size: 24px;
+  font-size: 36px;
 }
 #temp, #degree {
   display: inline;
@@ -21,8 +34,10 @@ h1 {
 #degree a:hover {
   text-decoration: none;
 }
+
+/* WEATHER */
 #weather {
-  font-size: 48px;
+  font-size: 64px;
 }
 #weather p {
   font-size: 24px;
