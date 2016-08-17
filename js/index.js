@@ -15,9 +15,9 @@ $(document).ready(function() {
 // ASK FOR GEOLOCATION
     navigator.geolocation.getCurrentPosition(function(position) {
       var latitude, longitude, googleCoords;
-      lat = position.coords.latitude;
-      lon = position.coords.longitude;
-      googleCoords = lat.toFixed(6) + "," + lon.toFixed(6);
+      lat = position.coords.latitude.toFixed(6);
+      lon = position.coords.longitude.toFixed(6);
+      googleCoords = lat + "," + lon;
 
       var googleAPI = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + googleCoords + "&key= AIzaSyDt0p9nUfXbTs5gCAEqdokhsV_UEgkx_50";
 
@@ -30,13 +30,13 @@ $(document).ready(function() {
           $("#coords").html("<a href='https://www.google.com/search?q=" + googleCoords + "' target='_blank'>" + lat + ", " + lon + "</a>");
 
 // DATE & TIME
-    var time = new Date().toString();  // date & time
-    time = time.split(" ");
-    $("#time").html(time[4] + " | " + time[1] + " " + time[2] + ", " + time[3]);
+      var time = new Date().toString();  // date & time
+      time = time.split(" ");
+      $("#time").html(time[4] + " | " + time[1] + " " + time[2] + ", " + time[3]);
 
-    var hour = new Date();      // hour of the day
-    hour = hour.getHours();
-    switch(hour) {            // prepend hour icon
+      var hour = new Date();      // hour of the day
+      hour = hour.getHours();
+      switch(hour) {            // prepend hour icon
       case 1:
       case 13:
         $("#time").prepend("<i class='wi wi-time-1'></i> ");
@@ -100,6 +100,7 @@ $(document).ready(function() {
       var website = "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?appid=5d87facb5c0056cee5c8975d500a58c7&units=" + units + "&zip=" + zip + "," + country;
       $.getJSON(website, function(json) {
         console.log(json);
+        $("h1").fadeIn(200).html("Weather App").css("font-size", "48px");
         var temperature = json.main.temp;
         $("#temp").html(json.main.temp);   // temperature
         var toggle = units;           // degree toggle
@@ -107,13 +108,13 @@ $(document).ready(function() {
           if(toggle == "imperial") {
             temperature = (temperature - 32) * 5 / 9;
             toggle = "metric";
-            $('#temp').html(temperature.toFixed(2));
-            $('#degree').html("<a href='#'> &#x2103</a>");
+            $("#temp").html(temperature.toFixed(2));
+            $("#degree").html("<a href='#'> &#x2103</a>");
           } else if(toggle == "metric") {
             temperature = (temperature * 9 / 5) + 32;
             toggle = "imperial";
-            $('#temp').html(temperature.toFixed(2));
-            $('#degree').html("<a href='#'> &#x2109</a>");
+            $("#temp").html(temperature.toFixed(2));
+            $("#degree").html("<a href='#'> &#x2109</a>");
           }
         });
         switch(json.weather[0].id) {   // weather icons & desc
@@ -127,6 +128,7 @@ $(document).ready(function() {
           case 230:
           case 231:
           case 232:
+            $("body").animate({backgroundColor: "#1A858E"});
             if(hour >= 6 && hour < 18) {
               $("#weather").html("<i class='wi wi-day-thunderstorm'></i>" + "<p>" + json.weather[0].description + "</p>");
             } else {
@@ -142,6 +144,7 @@ $(document).ready(function() {
           case 313:
           case 314:
           case 321:
+            $("body").animate({backgroundColor: "#86888A"});
             if(hour >= 6 && hour < 18) {
               $("#weather").html("<i class='wi wi-day-sprinkle'></i>" + "<p>" + json.weather[0].description + "</p>");
             } else {
@@ -158,6 +161,7 @@ $(document).ready(function() {
           case 521:
           case 522:
           case 531:
+            $("body").animate({backgroundColor: "#00AEB3"});
             if(hour >= 6 && hour < 18) {
               $("#weather").html("<i class='wi wi-day-rain'></i>" + "<p>" + json.weather[0].description + "</p>");
             } else {
@@ -174,6 +178,7 @@ $(document).ready(function() {
           case 620:
           case 621:
           case 622:
+            $("body").animate({backgroundColor: "#A9DDDD"});
             if(hour >= 6 && hour < 18) {
               $("#weather").html("<i class='wi wi-day-snow'></i>" + "<p>" + json.weather[0].description + "</p>");
             } else {
@@ -182,8 +187,10 @@ $(document).ready(function() {
             break;
           case 800:
             if(hour >= 6 && hour < 18) {
+              $("body").animate({backgroundColor: "#68C7EC"});
               $("#weather").html("<i class='wi wi-day-sunny'></i>" + "<p>" + json.weather[0].description + "</p>");
             } else {
+              $("body").animate({backgroundColor: "#0B4971"});
               $("#weather").html("<i class='wi wi-night-clear'></i>" + "<p>" + json.weather[0].description + "</p>");
             }
             break;
@@ -191,6 +198,7 @@ $(document).ready(function() {
           case 802:
           case 803:
           case 804:
+            $("body").animate({backgroundColor: "#B3B5B7"});
             if(hour >= 6 && hour < 18) {
               $("#weather").html("<i class='wi wi-day-cloudy'></i>" + "<p>" + json.weather[0].description + "</p>");
           } else {
@@ -203,6 +211,6 @@ $(document).ready(function() {
       });
 
     });
-  });
 
+  });
 });
